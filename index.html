@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Yaş Hesaplama</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ff5f6d, #ffc371);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    input[type="date"] {
+      font-size: 1.2em;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">Yaş Hesaplama</h1>
+          <p class="card-text">Doğum tarihinizi girin:</p>
+          <input type="date" id="birthday" onchange="calculateAge()" />
+          <div id="result"></div>
+          <div class="clock">
+            <div class="hour"></div>
+            <div class="min"></div>
+            <div class="sec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function calculateAge() {
+        var birthday = new Date(document.getElementById("birthday").value);
+        var today = new Date();
+
+        var ageInMilliseconds = today - birthday;
+
+        var ageInSeconds = ageInMilliseconds / 1000;
+        var ageInMinutes = ageInSeconds / 60;
+        var ageInHours = ageInMinutes / 60;
+        var ageInDays = ageInHours / 24;
+
+        var years = Math.floor(ageInDays / 365);
+
+        ageInDays -= years * 365;
+
+        var months = Math.floor(ageInDays / 30);
+
+        ageInDays -= months * 30;
+
+        var days = Math.floor(ageInDays);
+
+        ageInHours -= (years * 365 + months * 30 + days) * 24;
+
+        var hours = Math.floor(ageInHours);
+
+        ageInMinutes -=
+          (years * 365 + months * 30 + days) * 24 * 60 + hours * 60;
+
+        var minutes = Math.floor(ageInMinutes);
+
+        ageInSeconds -=
+          (years * 365 + months * 30 + days) * 24 * 60 * 60 +
+          hours * 60 * 60 +
+          minutes * 60;
+
+        var seconds = Math.floor(ageInSeconds);
+
+        document.getElementById("result").innerHTML =
+          "Yaşınız: " +
+          years +
+          " yıl " +
+          months +
+          " ay " +
+          days +
+          " gün " +
+          hours +
+          " saat " +
+          minutes +
+          " dakika " +
+          seconds +
+          " saniye";
+      }
+
+      document.getElementById("result").style.display = "none";
+
+      document
+        .getElementById("birthday")
+        .addEventListener("change", function () {
+          document.getElementById("result").style.display = "block";
+        });
+
+      setInterval(calculateAge, 1000);
+    </script>
+  </body>
+</html>
